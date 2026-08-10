@@ -1,0 +1,1555 @@
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+
+  font-family: "Poppins", sans-serif;
+  color: white;
+
+  background: #06025c;
+
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   MAIN APPLICATION LAYOUT
+========================================================= */
+
+#main {
+  min-height: 100vh;
+
+  display: grid;
+
+  grid-template-columns:
+    clamp(4.5rem, 6vw, 5.5rem)
+    minmax(0, 1fr);
+
+  gap: 1rem;
+
+  padding: 1rem;
+
+  background: linear-gradient(
+    180deg,
+    rgba(6, 2, 92, 1) 0%,
+    rgba(9, 9, 121, 1) 45%,
+    rgba(25, 70, 133, 1) 100%
+  );
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+aside {
+  position: sticky;
+  top: 1rem;
+
+  height: calc(100vh - 2rem);
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 0.65rem;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 1.2rem;
+
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  z-index: 100;
+}
+
+/* =========================================================
+   SIDEBAR BRAND
+========================================================= */
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 2rem;
+
+  width: 100%;
+}
+
+.nav-logo {
+  width: clamp(2.7rem, 5vw, 3.7rem);
+
+  flex-shrink: 0;
+}
+
+.nav-logo img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  border-radius: 1rem;
+}
+
+/* =========================================================
+   SIDEBAR NAVIGATION
+========================================================= */
+
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 1rem;
+
+  width: 100%;
+}
+
+.nav-icons {
+  width: 2.7rem;
+  height: 2.7rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  color: white;
+
+  background: transparent;
+
+  border: none;
+  border-radius: 0.8rem;
+
+  font-size: 1.35rem;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-icons:hover {
+  background: rgba(255, 255, 255, 0.12);
+
+  transform: translateY(-2px);
+}
+
+.nav-icons:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   MAIN WEATHER DASHBOARD
+========================================================= */
+
+.right-section {
+  min-width: 0;
+
+  /*
+    Main content gets its own scroll area on desktop.
+    Sidebar remains stationary.
+  */
+
+  height: calc(100vh - 2rem);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding-right: 0.25rem;
+
+  display: grid;
+
+  /*
+    LEFT  = main weather area
+    RIGHT = smaller information area
+  */
+
+  grid-template-columns:
+    minmax(0, 1.65fr)
+    minmax(300px, 1fr);
+
+  /*
+    Header
+    Current + hourly
+    Current + details
+    Forecast + sunrise
+    Forecast + air quality
+  */
+
+  grid-template-rows:
+    auto
+    auto
+    auto
+    auto
+    auto;
+
+  grid-template-areas:
+    "header header"
+    "current hourly"
+    "current details"
+    "forecast sunset"
+    "forecast air";
+
+  gap: 1rem;
+
+  align-content: start;
+}
+
+/* =========================================================
+   CUSTOM SCROLLBAR
+========================================================= */
+
+.right-section::-webkit-scrollbar {
+  width: 6px;
+}
+
+.right-section::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.right-section::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+
+  border-radius: 10px;
+}
+
+.right-section::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+  grid-area: header;
+
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 2rem;
+
+  padding: 0.25rem 0;
+}
+
+/* =========================================================
+   SEARCH BAR
+========================================================= */
+
+.search-bar {
+  width: min(100%, 650px);
+
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0.8rem 1rem;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 1rem;
+
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.search-bar:focus-within {
+  border-color: rgba(255, 255, 255, 0.35);
+
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Search icon */
+
+.search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  color: rgba(255, 255, 255, 0.85);
+
+  font-size: 1.4rem;
+
+  cursor: text;
+}
+
+/* Search input */
+
+.search-input {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 0 0.8rem;
+
+  color: white;
+
+  background: transparent;
+
+  border: none;
+  outline: none;
+
+  font-size: 1rem;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.search-input:focus {
+  caret-color: white;
+}
+
+/* Search button */
+
+.search-button {
+  flex-shrink: 0;
+
+  padding: 0.5rem 0.8rem;
+
+  color: white;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 0.6rem;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.search-button:hover {
+  background: rgba(255, 255, 255, 0.16);
+
+  transform: translateY(-1px);
+}
+
+.search-button:active {
+  transform: scale(0.96);
+}
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+.weather-location {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  gap: 0.3rem;
+
+  white-space: nowrap;
+}
+
+#Location-city {
+  display: flex;
+  align-items: center;
+
+  gap: 0.35rem;
+
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+#weather-date {
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 0.8rem;
+}
+
+/* =========================================================
+   COMMON WEATHER CARD
+========================================================= */
+
+section {
+  min-width: 0;
+
+  padding: clamp(1rem, 2vw, 1.4rem);
+
+  background: rgba(255, 255, 255, 0.055);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
+
+  border-radius: 1rem;
+
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================================
+   CURRENT WEATHER
+========================================================= */
+
+#current-weather {
+  grid-area: current;
+
+  min-height: 500px;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+
+  gap: 1.2rem;
+
+  overflow: hidden;
+
+  /*
+    Temporary visual background.
+    Later JavaScript can change this depending
+    on weather condition.
+  */
+
+  background: linear-gradient(
+    180deg,
+    rgba(45, 103, 160, 0.8),
+    rgba(5, 27, 55, 0.96)
+  );
+}
+
+/* =========================================================
+   CURRENT WEATHER HEADER
+========================================================= */
+
+.current-weather-header {
+  flex: 1 1 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.6rem;
+
+  padding-bottom: 0.7rem;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+#current-weather-title {
+  color: #45a9ff;
+
+  font-size: 1rem;
+
+  font-weight: 600;
+}
+
+.weather-time {
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.85rem;
+}
+
+/* =========================================================
+   TEMPERATURE
+========================================================= */
+
+.temperature {
+  flex: 1 1 220px;
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 0.5rem;
+}
+
+.temperature h1 {
+  font-size: clamp(4rem, 7vw, 7rem);
+
+  line-height: 0.9;
+
+  font-weight: 500;
+}
+
+.temperature h1 sup {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.weather-condition {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+
+  font-weight: 600;
+}
+
+.feels-like {
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 1rem;
+}
+
+/* =========================================================
+   CURRENT WEATHER ICON
+========================================================= */
+
+.weather-icon {
+  flex: 1 1 200px;
+
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather-icon img {
+  display: block;
+
+  width: clamp(120px, 14vw, 200px);
+
+  max-width: 100%;
+  height: auto;
+
+  object-fit: contain;
+}
+
+/* =========================================================
+   CURRENT WEATHER STATISTICS
+========================================================= */
+
+.weather-stats {
+  flex: 1 1 100%;
+
+  display: flex;
+
+  gap: 0.8rem;
+}
+
+.other-details {
+  flex: 1;
+
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns: auto minmax(0, 1fr);
+
+  grid-template-rows: auto auto;
+
+  column-gap: 0.65rem;
+
+  padding: 0.8rem;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 0.8rem;
+}
+
+.other-details .detail-label {
+  grid-column: 2;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 0.75rem;
+}
+
+.other-details > i {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+
+  align-self: center;
+
+  color: #49aaff;
+
+  font-size: 1.45rem;
+}
+
+.other-details .detail-value {
+  grid-column: 2;
+
+  font-size: 0.9rem;
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   HIGH / LOW
+========================================================= */
+
+.high-low {
+  flex: 1 1 100%;
+
+  display: flex;
+
+  gap: 2.5rem;
+}
+
+.high-low > div {
+  text-align: left;
+}
+
+.high-low h3 {
+  font-size: 1.45rem;
+
+  font-weight: 500;
+}
+
+.high-low h3 i {
+  font-size: 0.95rem;
+}
+
+.high-low h3 .bx-arrow-up {
+  color: #ffb6a3;
+}
+
+.high-low h3 .bx-arrow-down {
+  color: #45a9ff;
+}
+
+.high-low p {
+  margin-top: 0.2rem;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 0.75rem;
+}
+
+/* =========================================================
+   SECTION HEADINGS
+========================================================= */
+
+.section-heading {
+  flex: 1 1 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  margin-bottom: 0.5rem;
+
+  padding-bottom: 0.7rem;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-heading h2 {
+  font-size: 1rem;
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   HOURLY FORECAST
+========================================================= */
+
+#hourly-weather {
+  grid-area: hourly;
+
+  display: grid;
+
+  grid-template-columns: repeat(5, minmax(70px, 1fr));
+
+  gap: 0.6rem;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  align-items: stretch;
+}
+
+/* Heading takes the full width */
+#hourly-weather .section-heading {
+  grid-column: 1 / -1;
+}
+
+/* Forecast cards */
+#hourly-weather .forecast-item {
+  min-width: 70px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 0.4rem;
+
+  padding: 0.7rem 0.4rem;
+
+  text-align: center;
+
+  border-radius: 0.8rem;
+}
+
+/* Highlight "Now" */
+#hourly-weather .forecast-item:first-of-type {
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Forecast image */
+#hourly-weather .forecast-icon {
+  width: 45px;
+  height: 45px;
+
+  object-fit: contain;
+}
+
+/* Time */
+#hourly-weather .forecast-time {
+  font-size: 0.8rem;
+
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Temperature */
+#hourly-weather .forecast-temperature {
+  font-size: 0.9rem;
+
+  font-weight: 600;
+}
+
+/* Weather condition */
+#hourly-weather .forecast-condition {
+  font-size: 0.7rem;
+
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* =========================================================
+   FORECAST ITEM
+========================================================= */
+
+.forecast-item {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 0.4rem;
+
+  padding: 0.65rem 0.4rem;
+
+  text-align: center;
+}
+
+.forecast-time,
+.forecast-day {
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.75rem;
+}
+
+.forecast-icon {
+  display: block;
+
+  width: clamp(40px, 5vw, 60px);
+
+  height: 50px;
+
+  object-fit: contain;
+}
+
+.forecast-temperature {
+  font-size: 0.85rem;
+
+  font-weight: 600;
+}
+
+.forecast-condition {
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 0.7rem;
+}
+
+/* =========================================================
+   WEATHER DETAILS
+========================================================= */
+
+#weather-details {
+  grid-area: details;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  align-content: flex-start;
+
+  gap: 0.6rem;
+}
+
+#weather-details .section-heading {
+  flex-basis: 100%;
+}
+
+.detail-item {
+  flex: 1 1 calc(50% - 0.6rem);
+
+  min-width: 120px;
+
+  display: grid;
+
+  grid-template-columns: auto minmax(0, 1fr);
+
+  grid-template-rows: auto auto;
+
+  column-gap: 0.65rem;
+
+  padding: 0.7rem;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 0.8rem;
+}
+
+.detail-item .detail-label {
+  grid-column: 2;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 0.7rem;
+}
+
+.detail-item i {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+
+  align-self: center;
+
+  color: #b9dfff;
+
+  font-size: 1.4rem;
+}
+
+.detail-item .detail-value {
+  grid-column: 2;
+
+  font-size: 0.85rem;
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   FIVE DAY FORECAST
+========================================================= */
+
+#fiveday-forecast {
+  grid-area: forecast;
+
+  display: grid;
+
+  grid-template-columns: repeat(5, minmax(100px, 1fr));
+
+  gap: 0.6rem;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  align-items: stretch;
+}
+
+/* Section heading */
+#fiveday-forecast .section-heading {
+  grid-column: 1 / -1;
+
+  height: fit-content;
+}
+
+/* Forecast cards */
+#fiveday-forecast .forecast-item {
+  min-width: 100px;
+
+  padding: 0.8rem 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 0.5rem;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 0.8rem;
+}
+
+/* Weather icon */
+#fiveday-forecast .forecast-icon {
+  width: 55px;
+  height: 55px;
+
+  object-fit: contain;
+}
+
+/* Temperature */
+#fiveday-forecast .forecast-temperature {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* High temperature */
+.forecast-high {
+  font-weight: 600;
+}
+
+/* Low temperature */
+.forecast-low {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Weather condition */
+#fiveday-forecast .forecast-condition {
+  font-size: 0.75rem;
+
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Day */
+#fiveday-forecast .forecast-day {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Scrollbar */
+#fiveday-forecast::-webkit-scrollbar {
+  height: 4px;
+}
+
+#fiveday-forecast::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#fiveday-forecast::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+}
+
+/* =========================================================
+   SUNRISE / SUNSET
+========================================================= */
+
+#sunset-rise {
+  grid-area: sunset;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  align-content: flex-start;
+
+  gap: 0.5rem;
+}
+
+#sunset-rise .section-heading {
+  flex-basis: 100%;
+}
+
+.sunrise,
+.sunset {
+  flex: 1;
+
+  min-width: 100px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 0.35rem;
+
+  padding: 0.5rem;
+}
+
+.sunrise i,
+.sunset i {
+  color: #ffd83d;
+
+  font-size: 1.5rem;
+}
+
+/* =========================================================
+   AIR QUALITY
+========================================================= */
+
+#air-quality {
+  grid-area: air;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  align-content: flex-start;
+
+  gap: 1rem;
+}
+
+#air-quality .section-heading {
+  flex-basis: 100%;
+}
+
+.air-quality-value {
+  flex: 0 1 110px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.25rem;
+}
+
+.air-quality-value p {
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 0.75rem;
+}
+
+.air-quality-value strong {
+  font-size: 2.3rem;
+
+  font-weight: 500;
+}
+
+.air-quality-details {
+  flex: 1;
+
+  min-width: 160px;
+
+  display: flex;
+
+  gap: 0.6rem;
+}
+
+.air-quality-details > div {
+  flex: 1;
+
+  padding: 0.6rem;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  border-radius: 0.7rem;
+}
+
+.air-quality-details > div p:first-child {
+  color: rgba(255, 255, 255, 0.6);
+
+  font-size: 0.7rem;
+}
+
+.air-quality-details > div p:last-child {
+  margin-top: 0.2rem;
+
+  font-size: 0.8rem;
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+  #main {
+    grid-template-columns:
+      4.5rem
+      minmax(0, 1fr);
+  }
+
+  .right-section {
+    grid-template-columns:
+      minmax(0, 1.4fr)
+      minmax(280px, 1fr);
+  }
+
+  .temperature h1 {
+    font-size: clamp(3.8rem, 6vw, 5.5rem);
+  }
+
+  .weather-stats {
+    gap: 0.5rem;
+  }
+
+  .other-details {
+    padding: 0.6rem;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  #main {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+  }
+
+  .right-section {
+    grid-template-columns: minmax(0, 1fr);
+
+    grid-template-rows: auto;
+
+    grid-template-areas:
+      "header"
+      "current"
+      "hourly"
+      "details"
+      "forecast"
+      "sunset"
+      "air";
+
+    gap: 0.8rem;
+  }
+
+  header {
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
+  }
+
+  .search-bar {
+    width: 100%;
+  }
+
+  #current-weather {
+    min-height: 480px;
+  }
+}
+
+/* =========================================================
+   SMALL TABLET / LARGE MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  #main {
+    display: block;
+
+    min-height: 100vh;
+
+    padding: 0.7rem;
+  }
+
+  /*
+    At this size we stop using an independent
+    desktop scroll area.
+
+    The whole page scrolls naturally.
+  */
+
+  aside {
+    position: relative;
+    top: auto;
+
+    width: 100%;
+    height: auto;
+    min-height: auto;
+
+    margin-bottom: 0.7rem;
+
+    padding: 0.6rem 0.8rem;
+
+    flex-direction: row;
+
+    border-radius: 1rem;
+  }
+
+  .brand {
+    flex-direction: row;
+
+    justify-content: space-between;
+
+    gap: 0.5rem;
+  }
+
+  nav {
+    flex-direction: row;
+
+    justify-content: flex-end;
+
+    gap: 0.25rem;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-logo {
+    width: 2.5rem;
+
+    flex-shrink: 0;
+  }
+
+  .nav-icons {
+    width: 2.2rem;
+    height: 2.2rem;
+
+    font-size: 1.1rem;
+  }
+
+  aside > .nav-icons {
+    display: none;
+  }
+
+  .right-section {
+    height: auto;
+
+    max-height: none;
+
+    overflow: visible;
+
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.8rem;
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 0.7rem;
+
+    padding: 0;
+  }
+
+  .search-bar {
+    width: 100%;
+
+    padding: 0.7rem 0.8rem;
+  }
+
+  .search-input {
+    font-size: 0.95rem;
+  }
+
+  .search-button {
+    padding: 0.45rem 0.65rem;
+  }
+
+  .weather-location {
+    align-items: flex-start;
+
+    padding: 0 0.3rem;
+  }
+
+  section {
+    padding: 1rem;
+
+    margin: 0;
+  }
+
+  #current-weather {
+    min-height: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 1.2rem;
+  }
+
+  .temperature,
+  .weather-icon,
+  .weather-stats,
+  .high-low {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .temperature {
+    align-items: flex-start;
+  }
+
+  .temperature h1 {
+    font-size: clamp(4rem, 18vw, 6rem);
+  }
+
+  .weather-icon {
+    min-height: 150px;
+  }
+
+  .weather-icon img {
+    width: 150px;
+  }
+
+  .weather-stats {
+    flex-direction: column;
+
+    gap: 0.6rem;
+  }
+
+  .other-details {
+    width: 100%;
+  }
+
+  .high-low {
+    justify-content: space-between;
+
+    gap: 1rem;
+  }
+
+  #hourly-weather {
+    grid-template-columns: repeat(5, 90px);
+
+    overflow-x: auto;
+  }
+
+  #hourly-weather .forecast-item {
+    flex: 0 0 75px;
+  }
+
+  #weather-details {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.6rem;
+  }
+
+  .detail-item {
+    flex-basis: auto;
+
+    width: 100%;
+  }
+
+  #fiveday-forecast {
+    grid-template-columns: repeat(5, 120px);
+
+    overflow-x: auto;
+  }
+
+  #fiveday-forecast .forecast-item {
+    flex: 0 0 110px;
+  }
+
+  #sunset-rise {
+    display: flex;
+
+    flex-direction: row;
+  }
+
+  .sunrise,
+  .sunset {
+    flex: 1;
+  }
+
+  #air-quality {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .air-quality-value {
+    width: 100%;
+  }
+
+  .air-quality-details {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  #main {
+    padding: 0.5rem;
+  }
+
+  aside {
+    padding: 0.5rem;
+  }
+
+  .brand {
+    gap: 0.4rem;
+  }
+
+  .nav-logo {
+    width: 2.2rem;
+  }
+
+  .nav-icons {
+    width: 2rem;
+    height: 2rem;
+
+    font-size: 1rem;
+  }
+
+  header {
+    gap: 0.6rem;
+  }
+
+  .search-bar {
+    border-radius: 0.8rem;
+  }
+
+  .search-button {
+    font-size: 0.8rem;
+  }
+
+  #Location-city {
+    font-size: 0.95rem;
+  }
+
+  #weather-date {
+    font-size: 0.75rem;
+  }
+
+  section {
+    border-radius: 0.9rem;
+
+    padding: 0.85rem;
+  }
+
+  .current-weather-header {
+    padding-bottom: 0.55rem;
+  }
+
+  .temperature h1 {
+    font-size: clamp(3.8rem, 20vw, 5rem);
+  }
+
+  .weather-condition {
+    font-size: 1.1rem;
+  }
+
+  .feels-like {
+    font-size: 0.9rem;
+  }
+
+  .weather-icon {
+    min-height: 120px;
+  }
+
+  .weather-icon img {
+    width: 125px;
+  }
+
+  .high-low {
+    gap: 1.5rem;
+  }
+
+  .high-low h3 {
+    font-size: 1.2rem;
+  }
+
+  .section-heading h2 {
+    font-size: 0.9rem;
+  }
+
+  .detail-item {
+    min-width: 0;
+  }
+
+  .air-quality-details {
+    flex-direction: column;
+  }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+  .nav-icons {
+    width: 1.8rem;
+    height: 1.8rem;
+
+    font-size: 0.9rem;
+  }
+
+  .nav-logo {
+    width: 2rem;
+  }
+
+  .search-button {
+    display: none;
+  }
+
+  .temperature h1 {
+    font-size: 3.5rem;
+  }
+
+  .weather-icon img {
+    width: 110px;
+  }
+
+  .high-low {
+    gap: 1rem;
+  }
+
+  .high-low h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+
+    transition: none !important;
+
+    animation: none !important;
+  }
+}

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weather App</title>
+
+    <!-- Boxicons -->
+
+    <!-- Basic Icons -->
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
+    <!-- Filled Icons -->
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/filled/boxicons-filled.min.css" rel="stylesheet">
+    <!-- Brand Icons -->
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/brands/boxicons-brands.min.css" rel="stylesheet">
+
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="main">
+
+        <!-- =========================
+             SIDEBAR
+        ========================== -->
+        <aside>
+
+            <!-- Logo + Navigation -->
+            <div class="brand">
+
+                <div class="nav-logo">
+                    <img src="./assets/logo.png" alt="Weather App logo">
+                </div>
+
+                <nav aria-label="Weather navigation">
+
+                    <button class="nav-icons" type="button" aria-label="Current weather">
+                        <i class="bx bx-home"></i>
+                    </button>
+
+                    <button class="nav-icons" type="button" aria-label="Location">
+                        <i class="bx bx-location"></i>
+                    </button>
+
+                    <button class="nav-icons" type="button" aria-label="Weather forecast">
+                        <i class="bx bx-chart-trend"></i>
+                    </button>
+
+                    <button class="nav-icons" type="button" aria-label="Wind">
+                        <i class="bx bx-wind"></i>
+                    </button>
+
+                    <button class="nav-icons" type="button" aria-label="Humidity">
+                        <i class="bx bx-water-drop-alt"></i>
+                    </button>
+
+                    <button class="nav-icons" type="button" aria-label="Settings">
+                        <i class="bx bx-cog"></i>
+                    </button>
+
+                </nav>
+
+            </div>
+
+            <!-- Theme Toggle -->
+            <button class="nav-icons" type="button" aria-label="Toggle theme">
+
+                <i class="bx bx-moon"></i>
+
+                <i class="bx bx-sun" style="display: none;"></i>
+
+            </button>
+
+        </aside>
+
+
+        <!-- =========================
+             MAIN CONTENT
+        ========================== -->
+        <main class="right-section">
+
+            <!-- =========================
+                 SEARCH
+            ========================== -->
+            <header>
+
+                <div class="search-bar">
+
+                    <label for="Search" class="search-icon" aria-label="Search">
+                        <i class="bx bx-search"></i>
+                    </label>
+
+                    <input type="text" id="Search" class="search-input" placeholder="Search for a city..."
+                        autocomplete="off">
+
+                    <button type="button" class="search-button" onclick="weather()">
+                        Search
+                    </button>
+
+                </div>
+                <div class="weather-location">
+                    <div class="weather-location-details">
+                        <p id="Location-city"> <i class="bx bx-location"></i> <span id="weather-city">UNKNOWN</span> |
+                            <span id="weather-country">UN</span>
+                        </p>
+                    </div>
+                    <div class="weather-location-details">
+                        <p id="weather-date">YYYY-MM-DD</p>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =========================
+                 CURRENT WEATHER
+            ========================== -->
+            <section id="current-weather" aria-labelledby="current-weather-title">
+
+                <div class="current-weather-header">
+
+                    <p id="current-weather-title">NOW</p>
+
+                    <p class="weather-time" id="weather-time">00:00 AM</p>
+
+                </div>
+
+
+                <!-- Temperature -->
+                <div class="temperature">
+
+                    <h1>
+                        <span id="current-temperature">23</span><sup>°C</sup>
+                    </h1>
+
+                    <p class="weather-condition">
+                        Pretty cloudy
+                    </p>
+
+                    <p class="feels-like">
+                        Feels like
+                        <span id="feels-like-temperature">31</span>
+                        <sup>°C</sup>
+                    </p>
+
+                </div>
+
+
+                <!-- Weather Icon -->
+                <div class="weather-icon">
+
+                    <img src="./assets/logo.png" alt="Current weather condition" width="150">
+
+                </div>
+
+
+                <!-- Weather Statistics -->
+                <div class="weather-stats">
+
+                    <!-- Rain -->
+                    <div class="other-details">
+
+                        <p class="detail-label">Rain</p>
+
+                        <i class="bx bx-cloud-rain" aria-hidden="true"></i>
+
+                        <p class="detail-value">
+                            <span id="rain-value">34</span>%
+                        </p>
+
+                    </div>
+
+
+                    <!-- Wind -->
+                    <div class="other-details">
+
+                        <p class="detail-label">Wind</p>
+
+                        <i class="bx bx-wind" aria-hidden="true"></i>
+
+                        <p class="detail-value">
+                            <span id="wind-value">45</span> km/h
+                        </p>
+
+                    </div>
+
+
+                    <!-- Pressure -->
+                    <div class="other-details">
+
+                        <p class="detail-label">Pressure</p>
+
+                        <i class="bx bx-tachometer-alt" aria-hidden="true"></i>
+
+                        <p class="detail-value">
+                            <span id="pressure-value">544</span> hPa
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Today's High / Low -->
+                <div class="high-low">
+
+                    <div>
+
+                        <h3>
+                            <i class="bx bx-arrow-up" aria-hidden="true"></i>
+
+                            <span id="today-high">31</span>
+                            <sup>°C</sup>
+                        </h3>
+
+                        <p>High today</p>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            <i class="bx bx-arrow-down" aria-hidden="true"></i>
+
+                            <span id="today-low">24</span>
+                            <sup>°C</sup>
+                        </h3>
+
+                        <p>Low today</p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 HOURLY WEATHER
+            ========================== -->
+            <section id="hourly-weather" aria-labelledby="hourly-weather-title">
+
+                <div class="section-heading">
+
+                    <h2 id="hourly-weather-title">
+                        Hourly Forecast
+                    </h2>
+
+                </div>
+
+
+                <!-- Hour 1 -->
+                <article class="forecast-item">
+
+                    <p class="forecast-time">Now</p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+
+                <!-- Hour 2 -->
+                <article class="forecast-item">
+
+                    <p class="forecast-time"></p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+
+                <!-- Hour 3 -->
+                <article class="forecast-item">
+
+                    <p class="forecast-time"></p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+
+                <!-- Hour 4 -->
+                <article class="forecast-item">
+
+                    <p class="forecast-time"></p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+
+                <!-- Hour 5 -->
+                <article class="forecast-item">
+
+                    <p class="forecast-time"></p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+            </section>
+
+
+            <!-- =========================
+                 WEATHER DETAILS
+            ========================== -->
+            <section id="weather-details" aria-labelledby="weather-details-title">
+
+                <div class="section-heading">
+
+                    <h2 id="weather-details-title">
+                        Weather Details
+                    </h2>
+
+                </div>
+
+
+                <article class="detail-item">
+
+                    <p class="detail-label">Humidity</p>
+
+                    <i class="bx bx-water-drop-alt" aria-hidden="true"></i>
+
+                    <p class="detail-value"><span id="humidity"></span>%</p>
+
+                </article>
+
+
+                <article class="detail-item">
+
+                    <p class="detail-label">Wind Speed</p>
+
+                    <i class="bx bx-wind" aria-hidden="true"></i>
+
+                    <p class="detail-value"><span id="wind-speed"></span>km/h</p>
+
+                </article>
+
+
+                <article class="detail-item">
+
+                    <p class="detail-label">Wind Direction</p>
+
+                    <i class="bx bx-compass" aria-hidden="true"></i>
+
+                    <p class="detail-value"><span id="wind-direction"></span>°</p>
+
+                </article>
+
+
+                <article class="detail-item">
+
+                    <p class="detail-label">Visibility</p>
+
+                    <i class="bx bx-eye" aria-hidden="true"></i>
+
+                    <p class="detail-value"><span id="visibility"></span>m</p>
+
+                </article>
+
+
+                <article class="detail-item">
+
+                    <p class="detail-label">Cloud Cover</p>
+
+                    <i class="bx bx-cloud" aria-hidden="true"></i>
+
+                    <p class="detail-value"><span id="humidity"></span>%</p>
+
+                </article>
+
+
+                <article class="detail-item">
+
+                    <p class="detail-label">UV Index</p>
+
+                    <i class="bx bx-sun" aria-hidden="true"></i>
+
+                    <p class="detail-value"><span id="humidity"></span>%</p>
+
+                </article>
+
+            </section>
+
+
+            <!-- =========================
+                 FIVE DAY FORECAST
+            ========================== -->
+            <section id="fiveday-forecast" aria-labelledby="fiveday-forecast-title">
+
+                <div class="section-heading">
+
+                    <h2 id="fiveday-forecast-title">
+                        5-Day Forecast
+                    </h2>
+
+                </div>
+
+
+                <article class="forecast-item">
+
+                    <p class="forecast-day">Today</p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span class="forecast-high"></span>°C /
+                        <span class="forecast-low"></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+
+                <article class="forecast-item">
+
+                    <p class="forecast-day"></p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span class="forecast-high"></span>°C /
+                        <span class="forecast-low"></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+
+                <article class="forecast-item">
+
+                    <p class="forecast-day"></p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span class="forecast-high"></span>°C /
+                        <span class="forecast-low"></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+
+                <article class="forecast-item">
+
+                    <p class="forecast-day"></p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span class="forecast-high"></span>°C /
+                        <span class="forecast-low"></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+
+                <article class="forecast-item">
+
+                    <p class="forecast-day"></p>
+
+                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
+
+                    <p class="forecast-temperature">
+                        <span class="forecast-high"></span>°C /
+                        <span class="forecast-low"></span>°C
+                    </p>
+
+                    <p class="forecast-condition"></p>
+
+                </article>
+
+            </section>
+
+
+            <!-- =========================
+                 SUNRISE / SUNSET
+            ========================== -->
+            <section id="sunset-rise" aria-labelledby="sunset-rise-title">
+
+                <div class="section-heading">
+
+                    <h2 id="sunset-rise-title">
+                        Sun
+                    </h2>
+
+                </div>
+
+                <div class="sunrise">
+
+                    <p>Sunrise</p>
+
+                    <i class="bx bx-sun" aria-hidden="true"></i>
+
+                    <p id="sunrise-time"></p>
+
+                </div>
+
+                <div class="sunset">
+
+                    <p>Sunset</p>
+
+                    <i class="bx bx-sun" aria-hidden="true"></i>
+
+                    <p id="sunset-time"></p>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 AIR QUALITY
+            ========================== -->
+            <section id="air-quality" aria-labelledby="air-quality-title">
+
+                <div class="section-heading">
+
+                    <h2 id="air-quality-title">
+                        Air Quality
+                    </h2>
+
+                </div>
+
+                <div class="air-quality-value">
+
+                    <p>European AQI</p>
+
+                    <strong id="aqi-value">--</strong>
+
+                </div>
+
+                <div class="air-quality-details">
+
+                    <div>
+
+                        <p>PM2.5</p>
+
+                        <p>
+                            <span id="pm25-value">--</span>
+                            μg/m³
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <p>PM10</p>
+
+                        <p>
+                            <span id="pm10-value">--</span>
+                            μg/m³
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
