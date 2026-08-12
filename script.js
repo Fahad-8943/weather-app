@@ -24,8 +24,8 @@ const weather = async () => {
   // 3. UPDATE LOCATION
   // =========================
 
-  document.getElementById("weather-city").innerHTML = city;
-  document.getElementById("weather-country").innerHTML = countryCode;
+  // document.getElementById("weather-city").innerHTML = city;
+  // document.getElementById("weather-country").innerHTML = countryCode;
 
   // =========================
   // 4. GET WEATHER DATA
@@ -76,42 +76,169 @@ const weather = async () => {
   // 7. UPDATE DATE & TIME
   // =========================
 
-  document.getElementById("weather-date").innerHTML = date;
-  document.getElementById("weather-time").innerHTML = time;
+  // document.getElementById("weather-date").innerHTML = date;
+  document.getElementById("country-code").innerHTML =
+    `               <div class="weather-location-details">
+                        <p id="Location-city"> <i class="bx bx-location"></i> <span id="weather-city">${city}</span> |
+                            <span id="weather-country">${countryCode}</span>
+                        </p>
+                    </div>
+                    <div class="weather-location-details">
+                        <p id="weather-date">${date}</p>
+                    </div>`;
+
+  // document.getElementById("weather-time").innerHTML = time;
 
   // =========================
   // 8. UPDATE CURRENT WEATHER
   // =========================
 
-  document.getElementById("current-temperature").innerHTML =
-    tempData.current.temperature_2m;
+  // document.getElementById("current-temperature").innerHTML =
+  //   tempData.current.temperature_2m;
 
-  document.getElementById("feels-like-temperature").innerHTML =
-    tempData.current.apparent_temperature;
+  // document.getElementById("feels-like-temperature").innerHTML =
+  // tempData.current.apparent_temperature;
 
-  document.getElementById("rain-value").innerHTML = tempData.current.rain;
+  // document.getElementById("rain-value").innerHTML = tempData.current.rain;
 
-  document.getElementById("wind-value").innerHTML =
-    tempData.current.wind_speed_10m;
+  // document.getElementById("wind-value").innerHTML =
+  //   tempData.current.wind_speed_10m;
 
-  document.getElementById("pressure-value").innerHTML =
-    tempData.current.pressure_msl;
+  // document.getElementById("pressure-value").innerHTML =
+  //   tempData.current.pressure_msl;
 
   // =========================
   // 9. UPDATE HIGH / LOW
   // =========================
 
-  document.getElementById("today-high").innerHTML =
-    tempData.daily.temperature_2m_max[0];
+  // document.getElementById("today-high").innerHTML =
+  //   tempData.daily.temperature_2m_max[0];
 
-  document.getElementById("today-low").innerHTML =
-    tempData.daily.temperature_2m_min[0];
+  // document.getElementById("today-low").innerHTML =
+  //   tempData.daily.temperature_2m_min[0];
+
+  document.getElementById("current-weather").innerHTML = `
+    <div class="current-weather-header">
+
+                    <p id="current-weather-title">NOW</p>
+
+                    <p class="weather-time" id="weather-time">${time}</p>
+
+                </div>
+
+
+                <!-- Temperature -->
+                <div class="temperature">
+
+                    <h1>
+                        <span id="current-temperature">${tempData.current.temperature_2m}</span><sup>°C</sup>
+                    </h1>
+
+                    <p class="weather-condition">
+                        Pretty cloudy
+                    </p>
+
+                    <p class="feels-like">
+                        Feels like
+                        <span id="feels-like-temperature">${tempData.current.apparent_temperature}</span><sup>°C</sup>
+                    </p>
+
+                </div>
+
+
+                <!-- Weather Icon -->
+                <div class="weather-icon">
+
+                    <img src="./assets/logo.png" alt="Current weather condition" width="150">
+
+                </div>
+
+
+                <!-- Weather Statistics -->
+                <div class="weather-stats">
+
+                    <!-- Rain -->
+                    <div class="other-details">
+
+                        <p class="detail-label">Rain</p>
+
+                        <i class="bx bx-cloud-rain" aria-hidden="true"></i>
+
+                        <p class="detail-value">
+                            <span id="rain-value">${tempData.current.rain}</span>%
+                        </p>
+
+                    </div>
+
+
+                    <!-- Wind -->
+                    <div class="other-details">
+
+                        <p class="detail-label">Wind</p>
+
+                        <i class="bx bx-wind" aria-hidden="true"></i>
+
+                        <p class="detail-value">
+                            <span id="wind-value">${tempData.current.wind_speed_10m}</span> km/h
+                        </p>
+
+                    </div>
+
+
+                    <!-- Pressure -->
+                    <div class="other-details">
+
+                        <p class="detail-label">Pressure</p>
+
+                        <i class="bx bx-tachometer-alt" aria-hidden="true"></i>
+
+                        <p class="detail-value">
+                            <span id="pressure-value">${tempData.current.pressure_msl}</span> hPa
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Today's High / Low -->
+                <div class="high-low">
+
+                    <div>
+
+                        <h3>
+                            <i class="bx bx-arrow-up" aria-hidden="true"></i>
+
+                            <span id="today-high">${tempData.daily.temperature_2m_max[0]}</span>
+                            <sup>°C</sup>
+                        </h3>
+
+                        <p>High today</p>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            <i class="bx bx-arrow-down" aria-hidden="true"></i>
+
+                            <span id="today-low">${tempData.daily.temperature_2m_min[0]}</span>
+                            <sup>°C</sup>
+                        </h3>
+
+                        <p>Low today</p>
+
+                    </div>
+
+                </div>
+`;
 
   // ==========================
   // weather - details
   // ==========================
 
-  document.getElementById('humidity').innerHTML = tempData.current.relative_humidity_2m
+  document.getElementById("humidity").innerHTML = tempData.current.relative_humidity_2m;
 
 
 
