@@ -18,7 +18,7 @@ const weather = async () => {
   let latitude = cityData.results[0].latitude;
   let longitude = cityData.results[0].longitude;
   let countryCode = cityData.results[0].country_code;
-  let timezone = cityData.results[0].timezone;
+  //   let timezone = cityData.results[0].timezone;
 
   // =========================
   // 3. UPDATE LOCATION
@@ -32,7 +32,7 @@ const weather = async () => {
   // =========================
 
   let response2 = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,wind_speed_10m_max,wind_direction_10m_dominant,sunrise,sunset,precipitation_probability_max,rain_sum&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,pressure_msl,visibility,wind_speed_10m,wind_gusts_10m,wind_direction_10m&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,weather_code,wind_speed_10m,wind_direction_10m,pressure_msl,surface_pressure,wind_gusts_10m,cloud_cover&timezone=${timezone}`,
+    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,wind_speed_10m_max,wind_direction_10m_dominant,sunrise,sunset,precipitation_probability_max,rain_sum&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,pressure_msl,visibility,wind_speed_10m,wind_gusts_10m,wind_direction_10m&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,weather_code,wind_speed_10m,wind_direction_10m,pressure_msl,surface_pressure,wind_gusts_10m,cloud_cover&timezone=auto`,
   );
 
   let tempData = await response2.json();
@@ -42,7 +42,7 @@ const weather = async () => {
   // =========================
 
   let response3 = await fetch(
-    `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=pm10,pm2_5&current=european_aqi,pm10,pm2_5&timezone=${timezone}`,
+    `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=pm10,pm2_5,uv_index&current=european_aqi,pm10,pm2_5&timezone=auto`,
   );
 
   let airData = await response3.json();
@@ -165,7 +165,7 @@ const weather = async () => {
                         <i class="bx bx-cloud-rain" aria-hidden="true"></i>
 
                         <p class="detail-value">
-                            <span id="rain-value">${tempData.current.rain}</span>%
+                            <span id="rain-value">${tempData.current.rain}</span>mm
                         </p>
 
                     </div>
@@ -235,17 +235,91 @@ const weather = async () => {
 `;
 
   // ==========================
-  // weather - details
+  // 10. weather - details
   // ==========================
 
-  document.getElementById("humidity").innerHTML = tempData.current.relative_humidity_2m;
+  document.getElementById("humidity").innerHTML =
+    tempData.current.relative_humidity_2m;
 
+  document.getElementById("wind-speed").innerHTML =
+    tempData.current.wind_speed_10m;
 
+  document.getElementById("wind-direction").innerHTML =
+    tempData.current.wind_direction_10m;
+
+  document.getElementById("visibility").innerHTML =
+    tempData.hourly.visibility[0];
+
+  document.getElementById("cloud-cover").innerHTML =
+    tempData.current.cloud_cover;
+
+  timestamp = tempData.current.time.slice(0, 14) + "00";
+  index = airData.hourly.time.indexOf(timestamp);
+
+  document.getElementById("uv-index").innerHTML =
+    airData.hourly.uv_index[index];
+
+  // ==========================
+  // 11. sun set and rise
+  // ==========================
+
+  let sunriseobj = new Date(tempData.daily.sunrise[0]);
+
+  let sunrise_hours = sunriseobj.getHours();
+  let sunrise_minutes = sunriseobj.getMinutes();
+  let sunrise_session = "AM";
+
+  if (sunrise_hours > 12) {
+    sunrise_hours -= 12;
+    sunrise_session = "PM";
+  }
+
+  sunrise_hours = sunrise_hours < 10 ? "0" + sunrise_hours : sunrise_hours;
+  sunrise_minutes =
+    sunrise_minutes < 10 ? "0" + sunrise_minutes : sunrise_minutes;
+
+  let sunrise = sunrise_hours + ":" + sunrise_minutes + " " + sunrise_session;
+
+  document.getElementById("sunrise-time").innerHTML = sunrise;
+
+  let sunsetobj = new Date(tempData.daily.sunset[0]);
+
+  let sunset_hours = sunsetobj.getHours();
+  let sunset_minutes = sunsetobj.getMinutes();
+  let sunset_session = "AM";
+
+  if (sunset_hours > 12) {
+    sunset_hours -= 12;
+    sunset_session = "PM";
+  }
+
+  sunset_hours = sunset_hours < 10 ? "0" + sunset_hours : sunset_hours;
+  sunset_minutes = sunset_minutes < 10 ? "0" + sunset_minutes : sunset_minutes;
+
+  let sunset = sunset_hours + ":" + sunset_minutes + " " + sunset_session;
+  document.getElementById("sunset-time").innerHTML = sunset;
+
+  // ==========================
+  // 12. air quality
+  // ==========================
+  document.getElementById("aqi-value").innerHTML = airData.current.european_aqi;
+
+  document.getElementById("pm25-value").innerHTML = airData.current.pm2_5;
+
+  document.getElementById("pm10-value").innerHTML = airData.current.pm10;
 
   // =========================
-  // 10. DEBUG / CHECK DATA
+  // 13. Hourly weather
   // =========================
 
+  // =========================
+  // 1. DEBUG / CHECK DATA
+  // =========================
+
+  //   console.log(timestamp);
+  //   console.log(airData.hourly.time.indexOf(timestamp, 0));
+  // console.log(tempData.daily.sunrise[0]);
+  //   console.log(sunrise);
   // console.log(countryCode);
   // console.log(tempData.current.temperature_2m);
   // console.log(tempData.current.relative_humidity_2m);
