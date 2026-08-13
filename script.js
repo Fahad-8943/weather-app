@@ -326,7 +326,8 @@ const weather = async () => {
     }
 
     sunset_hours = sunset_hours < 10 ? "0" + sunset_hours : sunset_hours;
-    sunset_minutes = sunset_minutes < 10 ? "0" + sunset_minutes : sunset_minutes;
+    sunset_minutes =
+      sunset_minutes < 10 ? "0" + sunset_minutes : sunset_minutes;
 
     let sunset = sunset_hours + ":" + sunset_minutes + " " + sunset_session;
     document.getElementById("sunset-time").innerHTML = sunset;
@@ -334,7 +335,8 @@ const weather = async () => {
     // ==========================
     // 12. air quality
     // ==========================
-    document.getElementById("aqi-value").innerHTML = airData.current.european_aqi;
+    document.getElementById("aqi-value").innerHTML =
+      airData.current.european_aqi;
 
     document.getElementById("pm25-value").innerHTML = airData.current.pm2_5;
 
@@ -347,7 +349,8 @@ const weather = async () => {
     const hourlyWeather = document.getElementById("hourly-weather");
 
     // Clear previous hourly data
-    hourlyWeather.innerHTML = '<div class="section-heading"><h2 id="hourly-weather-title">Hourly Forecast</h2></div>';
+    hourlyWeather.innerHTML =
+      '<div class="section-heading"><h2 id="hourly-weather-title">Hourly Forecast</h2></div>';
 
     const currentTime = tempData.current.time;
 
@@ -436,7 +439,6 @@ const weather = async () => {
         hourlyWeather.appendChild(article);
       }
     }
-
   } catch (error) {
     console.error("Weather Error:", error.message);
     alert("Error fetching weather data: " + error.message);
