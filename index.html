@@ -38,28 +38,28 @@
 
                 <nav aria-label="Weather navigation">
 
-                    <button class="nav-icons" type="button" aria-label="Current weather">
+                    <button class="nav-icons" type="button" aria-label="Current weather" onclick="document.getElementById('current-weather').scrollIntoView({behavior:'smooth'})" title="Current weather">
                         <i class="bx bx-home"></i>
                     </button>
 
-                    <button class="nav-icons" type="button" aria-label="Location">
+                    <button class="nav-icons" id="nav-location" type="button" aria-label="Use Current Location" title="Use current GPS location">
                         <i class="bx bx-location"></i>
                     </button>
 
-                    <button class="nav-icons" type="button" aria-label="Weather forecast">
+                    <button class="nav-icons" type="button" aria-label="Weather forecast" onclick="document.getElementById('fiveday-forecast').scrollIntoView({behavior:'smooth'})" title="5-day forecast">
                         <i class="bx bx-chart-trend"></i>
                     </button>
 
-                    <button class="nav-icons" type="button" aria-label="Wind">
-                        <i class="bx bx-wind"></i>
+                    <button class="nav-icons" type="button" aria-label="Hourly forecast" onclick="document.getElementById('hourly-weather').scrollIntoView({behavior:'smooth'})" title="Hourly forecast">
+                        <i class="bx bx-clock"></i>
                     </button>
 
-                    <button class="nav-icons" type="button" aria-label="Humidity">
+                    <button class="nav-icons" type="button" aria-label="Weather details" onclick="document.getElementById('weather-details').scrollIntoView({behavior:'smooth'})" title="Weather details">
                         <i class="bx bx-water-drop-alt"></i>
                     </button>
 
-                    <button class="nav-icons" type="button" aria-label="Settings">
-                        <i class="bx bx-cog"></i>
+                    <button class="nav-icons" type="button" aria-label="Air quality" onclick="document.getElementById('air-quality').scrollIntoView({behavior:'smooth'})" title="Air quality">
+                        <i class="bx bx-wind"></i>
                     </button>
 
                 </nav>
@@ -67,11 +67,11 @@
             </div>
 
             <!-- Theme Toggle -->
-            <button class="nav-icons" type="button" aria-label="Toggle theme">
+            <button class="nav-icons" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle Light/Dark Theme">
 
-                <i class="bx bx-moon"></i>
+                <i class="bx bx-moon" id="theme-moon"></i>
 
-                <i class="bx bx-sun" style="display: none;"></i>
+                <i class="bx bx-sun" id="theme-sun" style="display: none;"></i>
 
             </button>
 
@@ -88,19 +88,29 @@
             ========================== -->
             <header>
 
-                <div class="search-bar">
+                <div class="search-container">
+                    <div class="search-bar">
 
-                    <label for="Search" class="search-icon" aria-label="Search">
-                        <i class="bx bx-search"></i>
-                    </label>
+                        <label for="Search" class="search-icon" aria-label="Search">
+                            <i class="bx bx-search"></i>
+                        </label>
 
-                    <input type="text" id="Search" class="search-input" placeholder="Search for a city..."
-                        autocomplete="off">
+                        <input type="text" id="Search" class="search-input" placeholder="Search for a city..."
+                            autocomplete="off">
 
-                    <button type="button" class="search-button" onclick="weather()">
-                        Search
-                    </button>
+                        <button type="button" class="geo-button" id="geo-btn" title="Use current GPS location" aria-label="Use current location">
+                            <i class="bx bx-location"></i>
+                        </button>
 
+                        <button type="button" class="search-button" id="search-btn">
+                            Search
+                        </button>
+
+                    </div>
+
+                    <p class="search-hint">
+                        <i class="bx bx-info-circle"></i> Type country or state to get better result of your location
+                    </p>
                 </div>
                 <div class="weather-location" id="country-code">
                     <div class="weather-location-details">
@@ -310,7 +320,7 @@
 
                     <i class="bx bx-eye" aria-hidden="true"></i>
 
-                    <p class="detail-value"><span id="visibility"></span>m</p>
+                    <p class="detail-value"><span id="visibility"></span> km</p>
 
                 </article>
 
@@ -332,7 +342,7 @@
 
                     <i class="bx bx-sun" aria-hidden="true"></i>
 
-                    <p class="detail-value"><span id="uv-index"></span>%</p>
+                    <p class="detail-value"><span id="uv-index"></span></p>
 
                 </article>
 
@@ -351,86 +361,6 @@
                     </h2>
 
                 </div>
-
-
-                <article class="forecast-item">
-
-                    <p class="forecast-day">Today</p>
-
-                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
-
-                    <p class="forecast-temperature">
-                        <span class="forecast-high"></span>°C /
-                        <span class="forecast-low"></span>°C
-                    </p>
-
-                    <p class="forecast-condition"></p>
-
-                </article>
-
-
-                <article class="forecast-item">
-
-                    <p class="forecast-day"></p>
-
-                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
-
-                    <p class="forecast-temperature">
-                        <span class="forecast-high"></span>°C /
-                        <span class="forecast-low"></span>°C
-                    </p>
-
-                    <p class="forecast-condition"></p>
-
-                </article>
-
-
-                <article class="forecast-item">
-
-                    <p class="forecast-day"></p>
-
-                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
-
-                    <p class="forecast-temperature">
-                        <span class="forecast-high"></span>°C /
-                        <span class="forecast-low"></span>°C
-                    </p>
-
-                    <p class="forecast-condition"></p>
-
-                </article>
-
-
-                <article class="forecast-item">
-
-                    <p class="forecast-day"></p>
-
-                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
-
-                    <p class="forecast-temperature">
-                        <span class="forecast-high"></span>°C /
-                        <span class="forecast-low"></span>°C
-                    </p>
-
-                    <p class="forecast-condition"></p>
-
-                </article>
-
-
-                <article class="forecast-item">
-
-                    <p class="forecast-day"></p>
-
-                    <img class="forecast-icon" src="./assets/logo.png" alt="Weather condition">
-
-                    <p class="forecast-temperature">
-                        <span class="forecast-high"></span>°C /
-                        <span class="forecast-low"></span>°C
-                    </p>
-
-                    <p class="forecast-condition"></p>
-
-                </article>
 
             </section>
 
@@ -462,7 +392,7 @@
 
                     <p>Sunset</p>
 
-                    <i class="bx bx-sun" aria-hidden="true"></i>
+                    <i class="bx bx-moon" aria-hidden="true"></i>
 
                     <p id="sunset-time"></p>
 
@@ -488,7 +418,10 @@
 
                     <p>European AQI</p>
 
-                    <strong id="aqi-value">--</strong>
+                    <div class="aqi-badge-wrapper">
+                        <strong id="aqi-value">--</strong>
+                        <span id="aqi-status" class="aqi-status-badge">--</span>
+                    </div>
 
                 </div>
 
