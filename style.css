@@ -21,6 +21,33 @@ body {
   background: #081b33;
 
   overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(186, 230, 253, 0.65) rgba(8, 27, 51, 0.45);
+}
+
+body::-webkit-scrollbar,
+.right-section::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+body::-webkit-scrollbar-track,
+.right-section::-webkit-scrollbar-track {
+  background: rgba(8, 27, 51, 0.28);
+  border-radius: 999px;
+}
+
+body::-webkit-scrollbar-thumb,
+.right-section::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(186, 230, 253, 0.9), rgba(56, 189, 248, 0.65));
+  border: 0.18rem solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+body::-webkit-scrollbar-thumb:hover,
+.right-section::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 /* =========================================================
@@ -266,21 +293,22 @@ nav {
 ========================================================= */
 
 .right-section::-webkit-scrollbar {
-  width: 6px;
+  width: 0.7rem;
 }
 
 .right-section::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(8, 27, 51, 0.28);
 }
 
 .right-section::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
-
-  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(186, 230, 253, 0.9), rgba(56, 189, 248, 0.65));
+  border: 0.18rem solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
 }
 
 .right-section::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 /* =========================================================
@@ -833,7 +861,7 @@ section {
 ========================================================= */
 
 .section-heading {
-  flex: 1 1 100%;
+  flex: 0 0 auto;
 
   display: flex;
   align-items: center;
@@ -1114,6 +1142,8 @@ section {
 #fiveday-forecast {
   grid-area: forecast;
 
+  min-height: 15.5rem;
+
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -1123,9 +1153,24 @@ section {
 }
 
 .fiveday-cards-container {
+  flex: 0 0 auto;
+  min-height: 9.5rem;
+
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.65rem;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(186, 230, 253, 0.65) transparent;
+}
+
+.fiveday-cards-container::-webkit-scrollbar {
+  height: 0.45rem;
+}
+
+.fiveday-cards-container::-webkit-scrollbar-thumb {
+  background: rgba(186, 230, 253, 0.7);
+  border-radius: 999px;
 }
 
 .fiveday-cards-container .forecast-item {
@@ -1615,11 +1660,23 @@ section {
     gap: 0.6rem;
   }
 
+  #sunset-rise .section-heading {
+    grid-column: 1 / -1;
+  }
+
   #air-quality {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
     gap: 0.8rem;
     align-items: center;
+  }
+
+  #air-quality .section-heading {
+    grid-column: 1 / -1;
+  }
+
+  .air-quality-value {
+    flex-basis: auto;
   }
 
   .air-quality-details {
@@ -1798,6 +1855,29 @@ section {
 #main.light-theme {
   background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 45%, #eff6ff 100%) !important;
   color: #0f172a !important;
+}
+
+body:has(#main.light-theme) {
+  scrollbar-color: rgba(2, 132, 199, 0.6) rgba(224, 242, 254, 0.7);
+}
+
+body:has(#main.light-theme)::-webkit-scrollbar-track,
+#main.light-theme .right-section::-webkit-scrollbar-track {
+  background: rgba(224, 242, 254, 0.7);
+}
+
+body:has(#main.light-theme)::-webkit-scrollbar-thumb,
+#main.light-theme .right-section::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7dd3fc, #0284c7);
+  border-color: rgba(224, 242, 254, 0.7);
+}
+
+#main.light-theme .right-section {
+  scrollbar-color: rgba(2, 132, 199, 0.6) rgba(224, 242, 254, 0.7);
+}
+
+#main.light-theme .fiveday-cards-container::-webkit-scrollbar-thumb {
+  background: rgba(2, 132, 199, 0.55);
 }
 
 /* Header is completely transparent with no background/border */
