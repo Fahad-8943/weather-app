@@ -206,23 +206,24 @@ const fetchWeatherData = async (latitude, longitude, cityName, adminRegion, coun
         <p class="weather-time" id="weather-time">${timeFormatted}</p>
       </div>
 
-      <!-- Temperature -->
-      <div class="temperature">
-        <h1>
-          <span id="current-temperature">${tempData.current.temperature_2m}</span><sup>°C</sup>
-        </h1>
-        <p class="weather-condition">
-          ${getWeatherCondition(tempData.current.weather_code)}
-        </p>
-        <p class="feels-like">
-          Feels like
-          <span id="feels-like-temperature">${tempData.current.apparent_temperature}</span><sup>°C</sup>
-        </p>
-      </div>
+      <!-- Current Weather Hero (Temperature + Animated SVG) -->
+      <div class="current-weather-hero">
+        <div class="temperature">
+          <h1>
+            <span id="current-temperature">${tempData.current.temperature_2m}</span><sup>°C</sup>
+          </h1>
+          <p class="weather-condition">
+            ${getWeatherCondition(tempData.current.weather_code)}
+          </p>
+          <p class="feels-like">
+            Feels like
+            <span id="feels-like-temperature">${tempData.current.apparent_temperature}</span><sup>°C</sup>
+          </p>
+        </div>
 
-      <!-- Weather Icon -->
-      <div class="weather-icon">
-        <img src="${getWeatherIcon(tempData.current.weather_code, tempData.current.is_day)}" alt="Current weather condition">
+        <div class="weather-icon">
+          <img src="${getWeatherIcon(tempData.current.weather_code, tempData.current.is_day)}" alt="Current weather condition">
+        </div>
       </div>
 
       <!-- Weather Statistics -->
@@ -277,52 +278,48 @@ const fetchWeatherData = async (latitude, longitude, cityName, adminRegion, coun
     // 5. Update Dynamic Background Theme
     setWeatherTheme(tempData.current.weather_code, tempData.current.is_day);
 
-    // 6. Update Weather Details
+    const currentHourIso = tempData.current.time.slice(0, 13) + ":00";
+    let startingIndex = tempData.hourly.time.indexOf(currentHourIso);
+    if (startingIndex === -1) startingIndex = 0;
+
+    // 6. Update Weather Details (6 Metric Cards)
     document.getElementById("humidity").innerHTML = tempData.current.relative_humidity_2m;
     document.getElementById("wind-speed").innerHTML = tempData.current.wind_speed_10m;
     document.getElementById("wind-direction").innerHTML = tempData.current.wind_direction_10m;
 
-    const currentHourIso = tempData.current.time.slice(0, 13) + ":00";
-    let startingIndex = tempData.hourly.time.indexOf(currentHourIso);
-    if (startingIndex === -1) {
-      startingIndex = 0;
-    }
-
-    const visibilityValue = tempData.hourly?.visibility?.[startingIndex];
+    const rawVis = tempData.hourly?.visibility?.[startingIndex];
     document.getElementById("visibility").innerHTML =
-      visibilityValue !== undefined && visibilityValue !== null
-        ? (visibilityValue / 1000).toFixed(1)
-        : "--";
+      rawVis !== undefined && rawVis !== null ? (rawVis / 1000).toFixed(1) : "--";
 
     document.getElementById("cloud-cover").innerHTML = tempData.current.cloud_cover ?? "--";
 
-    const airQualityIndex = airData?.hourly?.time?.indexOf(currentHourIso) ?? -1;
-    if (airQualityIndex !== -1 && airData?.hourly?.uv_index) {
-      document.getElementById("uv-index").innerHTML = airData.hourly.uv_index[airQualityIndex] ?? "--";
-    } else {
-      document.getElementById("uv-index").innerHTML = "--";
-    }
+    const rawUv = airData?.current?.uv_index ?? airData?.hourly?.uv_index?.[startingIndex];
+    document.getElementById("uv-index").innerHTML =
+      rawUv !== undefined && rawUv !== null ? Number(rawUv).toFixed(1) : "--";
 
-    // 7. Update Sunrise & Sunset Times
-    const sunriseObj = new Date(tempData.daily.sunrise[0]);
-    let sunriseHours = sunriseObj.getHours();
-    let sunriseMinutes = sunriseObj.getMinutes();
-    let sunriseSession = sunriseHours >= 12 ? "PM" : "AM";
+    // 7. Update Sunrise Time (12-Hour AM/PM)
+    const sunrise = tempData.daily.sunrise[0];
+    const [, sunriseTime] = sunrise.split("T");
+    let [sunriseHours, sunriseMinutes] = sunriseTime.split(":");
+    sunriseHours = Number(sunriseHours);
+    const sunriseSession = sunriseHours >= 12 ? "PM" : "AM";
     sunriseHours = sunriseHours % 12 || 12;
     sunriseHours = sunriseHours < 10 ? "0" + sunriseHours : sunriseHours;
     sunriseMinutes = sunriseMinutes < 10 ? "0" + sunriseMinutes : sunriseMinutes;
     document.getElementById("sunrise-time").innerHTML = `${sunriseHours}:${sunriseMinutes} ${sunriseSession}`;
 
-    const sunsetObj = new Date(tempData.daily.sunset[0]);
-    let sunsetHours = sunsetObj.getHours();
-    let sunsetMinutes = sunsetObj.getMinutes();
-    let sunsetSession = sunsetHours >= 12 ? "PM" : "AM";
+    // 8. Update Sunset Time (12-Hour AM/PM)
+    const sunset = tempData.daily.sunset[0];
+    const [, sunsetTime] = sunset.split("T");
+    let [sunsetHours, sunsetMinutes] = sunsetTime.split(":");
+    sunsetHours = Number(sunsetHours);
+    const sunsetSession = sunsetHours >= 12 ? "PM" : "AM";
     sunsetHours = sunsetHours % 12 || 12;
     sunsetHours = sunsetHours < 10 ? "0" + sunsetHours : sunsetHours;
     sunsetMinutes = sunsetMinutes < 10 ? "0" + sunsetMinutes : sunsetMinutes;
     document.getElementById("sunset-time").innerHTML = `${sunsetHours}:${sunsetMinutes} ${sunsetSession}`;
 
-    // 8. Update Air Quality Values & Status Badge
+    // 9. Update Air Quality Values & Status Badge
     const aqi = airData?.current?.european_aqi;
     document.getElementById("aqi-value").innerHTML = aqi ?? "--";
     document.getElementById("pm25-value").innerHTML = airData?.current?.pm2_5 ?? "--";
@@ -337,26 +334,44 @@ const fetchWeatherData = async (latitude, longitude, cityName, adminRegion, coun
       aqiStatusEl.style.borderColor = aqiStatus.color + "88";
     }
 
-    // 9. Update Hourly Forecast (Next 24 Hours)
+    // 10. Update Hourly Forecast (Next 8 Hours)
     const hourlyWeather = document.getElementById("hourly-weather");
-    hourlyWeather.innerHTML = '<div class="section-heading"><h2 id="hourly-weather-title">Hourly Forecast</h2></div>';
+    hourlyWeather.innerHTML = `
+      <div class="section-heading">
+        <h2 id="hourly-weather-title">Hourly Forecast</h2>
+      </div>
+      <div class="hourly-scroll-container" id="hourly-scroll-container"></div>
+    `;
 
-    const maxHours = Math.min(startingIndex + 24, tempData.hourly.time.length);
+    const hourlyContainer = document.getElementById("hourly-scroll-container");
+    const maxHours = Math.min(startingIndex + 8, tempData.hourly.time.length);
+    const currentDateIso = tempData.current.time.slice(0, 10);
+
     for (let i = startingIndex; i < maxHours; i++) {
       const fullTime = tempData.hourly.time[i];
-      const [, rawTime] = fullTime.split("T");
+      const [itemDateIso, rawTime] = fullTime.split("T");
       let [hourString, minute] = rawTime.split(":");
       let hour = Number(hourString);
       let session = hour >= 12 ? "PM" : "AM";
-      hour = hour % 12 || 12;
-      const displayTime = `${hour}:${minute} ${session}`;
+      let displayHour = hour % 12 || 12;
+      const displayTime = `${displayHour}:${minute} ${session}`;
 
       const article = document.createElement("article");
       article.className = "forecast-item";
+      if (i === startingIndex) {
+        article.classList.add("forecast-item-now");
+      }
 
-      const time = document.createElement("p");
-      time.className = "forecast-time";
-      time.textContent = i === startingIndex ? "Now" : displayTime;
+      const timeWrapper = document.createElement("div");
+      timeWrapper.className = "forecast-time-wrapper";
+
+      if (i === startingIndex) {
+        timeWrapper.innerHTML = `<span class="forecast-time">Now</span>`;
+      } else if (itemDateIso !== currentDateIso) {
+        timeWrapper.innerHTML = `<span class="forecast-time">${displayTime}</span><span class="forecast-subday">Tom</span>`;
+      } else {
+        timeWrapper.innerHTML = `<span class="forecast-time">${displayTime}</span>`;
+      }
 
       const isDayHour = hour >= 6 && hour < 19 ? 1 : 0;
       const hourlyIconSrc = getWeatherIcon(tempData.hourly.weather_code[i], isDayHour);
@@ -377,21 +392,24 @@ const fetchWeatherData = async (latitude, longitude, cityName, adminRegion, coun
       precipitation.className = "forecast-condition";
       const precipitationValue = document.createElement("span");
       precipitationValue.className = "precipitation-probability";
-      precipitationValue.textContent = tempData.hourly.precipitation_probability[i];
+      const precipProb = tempData.hourly.precipitation_probability?.[i] ?? 0;
+      precipitationValue.textContent = precipProb;
       precipitation.append(precipitationValue, "%");
 
-      article.append(time, icon, temperature, precipitation);
-      hourlyWeather.appendChild(article);
+      article.append(timeWrapper, icon, temperature, precipitation);
+      hourlyContainer.appendChild(article);
     }
 
-    // 10. Update 5-Day Forecast
+    // 11. Update 5-Day Forecast
     const forecastContainer = document.getElementById("fiveday-forecast");
     forecastContainer.innerHTML = `
       <div class="section-heading">
         <h2 id="fiveday-forecast-title">5-Day Forecast</h2>
       </div>
+      <div class="fiveday-cards-container" id="fiveday-cards-container"></div>
     `;
 
+    const fivedayContainer = document.getElementById("fiveday-cards-container");
     for (let i = 0; i < 5; i++) {
       const dateString = tempData.daily.time[i];
       const maxTemp = Math.round(tempData.daily.temperature_2m_max[i]);
@@ -421,11 +439,16 @@ const fetchWeatherData = async (latitude, longitude, cityName, adminRegion, coun
         <p class="forecast-condition">${conditionText}</p>
       `;
 
-      forecastContainer.appendChild(article);
+      fivedayContainer.appendChild(article);
     }
   } catch (error) {
     console.error("Weather Error:", error.message);
-    alert("Error fetching weather data: " + error.message);
+  } finally {
+    const searchBtn = document.getElementById("search-btn");
+    if (searchBtn) {
+      searchBtn.innerHTML = "Search";
+      searchBtn.disabled = false;
+    }
   }
 };
 
@@ -440,6 +463,12 @@ const weather = async (forcedQuery = null) => {
     if (!city || city.trim() === "") {
       alert("Please enter a city name");
       return;
+    }
+
+    const searchBtn = document.getElementById("search-btn");
+    if (searchBtn) {
+      searchBtn.innerHTML = `<i class="bx bx-loader-alt bx-spin"></i>`;
+      searchBtn.disabled = true;
     }
 
     searchInput.blur();
@@ -458,6 +487,10 @@ const weather = async (forcedQuery = null) => {
 
     if (!cityData.results || cityData.results.length === 0) {
       alert("Location not found! Try typing the country or state name.");
+      if (searchBtn) {
+        searchBtn.innerHTML = "Search";
+        searchBtn.disabled = false;
+      }
       return;
     }
 
@@ -475,7 +508,11 @@ const weather = async (forcedQuery = null) => {
     await fetchWeatherData(latitude, longitude, cityName, adminRegion, countryCode);
   } catch (error) {
     console.error("Search Error:", error.message);
-    alert("Error fetching data: " + error.message);
+    const searchBtn = document.getElementById("search-btn");
+    if (searchBtn) {
+      searchBtn.innerHTML = "Search";
+      searchBtn.disabled = false;
+    }
   }
 };
 
@@ -484,7 +521,7 @@ const weather = async (forcedQuery = null) => {
 // =========================================================
 const getLiveLocation = () => {
   if (!navigator.geolocation) {
-    alert("Geolocation is not supported by your browser");
+    weather("London");
     return;
   }
 
@@ -517,9 +554,9 @@ const getLiveLocation = () => {
       await fetchWeatherData(latitude, longitude, cityName, adminRegion, countryCode);
     },
     (error) => {
-      console.warn("GPS Error:", error.message);
+      console.warn("GPS Notice:", error.message);
       if (searchInput) searchInput.placeholder = "Search for a city...";
-      // Fallback to London on failure
+      // Fallback to London on failure if not already loaded
       weather("London");
     },
     { timeout: 8000 }
@@ -575,7 +612,7 @@ if (themeToggleBtn) {
   themeToggleBtn.addEventListener("click", toggleTheme);
 }
 
-// Auto-load live weather on page load
+// Auto-load weather instantly on startup
 window.addEventListener("DOMContentLoaded", () => {
   if (navigator.geolocation) {
     getLiveLocation();

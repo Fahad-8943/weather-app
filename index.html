@@ -141,31 +141,25 @@
                 </div>
 
 
-                <!-- Temperature -->
-                <div class="temperature">
+                <!-- Current Weather Hero -->
+                <div class="current-weather-hero">
+                    <div class="temperature">
+                        <h1>
+                            <span id="current-temperature">23</span><sup>°C</sup>
+                        </h1>
+                        <p class="weather-condition">
+                            Pretty cloudy
+                        </p>
+                        <p class="feels-like">
+                            Feels like
+                            <span id="feels-like-temperature">31</span>
+                            <sup>°C</sup>
+                        </p>
+                    </div>
 
-                    <h1>
-                        <span id="current-temperature">23</span><sup>°C</sup>
-                    </h1>
-
-                    <p class="weather-condition">
-                        Pretty cloudy
-                    </p>
-
-                    <p class="feels-like">
-                        Feels like
-                        <span id="feels-like-temperature">31</span>
-                        <sup>°C</sup>
-                    </p>
-
-                </div>
-
-
-                <!-- Weather Icon -->
-                <div class="weather-icon">
-
-                    <img src="./assets/logo.png" alt="Current weather condition" width="150">
-
+                    <div class="weather-icon">
+                        <img src="./assets/logo.png" alt="Current weather condition" width="150">
+                    </div>
                 </div>
 
 
@@ -255,15 +249,17 @@
                  HOURLY WEATHER
             ========================== -->
             <section id="hourly-weather" aria-labelledby="hourly-weather-title">
-
                 <div class="section-heading">
-                    <h2 id="hourly-weather-title">
-                        Hourly Forecast
-                    </h2>
+                    <h2 id="hourly-weather-title">Hourly Forecast</h2>
                 </div>
-
-
-
+                <div class="hourly-scroll-container" id="hourly-scroll-container">
+                    <article class="forecast-item skeleton" style="min-height: 120px; min-width: 76px;"></article>
+                    <article class="forecast-item skeleton" style="min-height: 120px; min-width: 76px;"></article>
+                    <article class="forecast-item skeleton" style="min-height: 120px; min-width: 76px;"></article>
+                    <article class="forecast-item skeleton" style="min-height: 120px; min-width: 76px;"></article>
+                    <article class="forecast-item skeleton" style="min-height: 120px; min-width: 76px;"></article>
+                    <article class="forecast-item skeleton" style="min-height: 120px; min-width: 76px;"></article>
+                </div>
             </section>
 
 
@@ -287,7 +283,7 @@
 
                     <i class="bx bx-water-drop-alt" aria-hidden="true"></i>
 
-                    <p class="detail-value"><span id="humidity"></span>%</p>
+                    <p class="detail-value"><span id="humidity">--</span>%</p>
 
                 </article>
 
@@ -298,7 +294,7 @@
 
                     <i class="bx bx-wind" aria-hidden="true"></i>
 
-                    <p class="detail-value"><span id="wind-speed"></span>km/h</p>
+                    <p class="detail-value"><span id="wind-speed">--</span>km/h</p>
 
                 </article>
 
@@ -309,7 +305,7 @@
 
                     <i class="bx bx-compass" aria-hidden="true"></i>
 
-                    <p class="detail-value"><span id="wind-direction"></span>°</p>
+                    <p class="detail-value"><span id="wind-direction">--</span>°</p>
 
                 </article>
 
@@ -320,7 +316,7 @@
 
                     <i class="bx bx-eye" aria-hidden="true"></i>
 
-                    <p class="detail-value"><span id="visibility"></span> km</p>
+                    <p class="detail-value"><span id="visibility">--</span> km</p>
 
                 </article>
 
@@ -331,7 +327,7 @@
 
                     <i class="bx bx-cloud" aria-hidden="true"></i>
 
-                    <p class="detail-value"><span id="cloud-cover"></span>%</p>
+                    <p class="detail-value"><span id="cloud-cover">--</span>%</p>
 
                 </article>
 
@@ -342,7 +338,7 @@
 
                     <i class="bx bx-sun" aria-hidden="true"></i>
 
-                    <p class="detail-value"><span id="uv-index"></span></p>
+                    <p class="detail-value"><span id="uv-index">--</span></p>
 
                 </article>
 
@@ -353,15 +349,16 @@
                  FIVE DAY FORECAST
             ========================== -->
             <section id="fiveday-forecast" aria-labelledby="fiveday-forecast-title">
-
                 <div class="section-heading">
-
-                    <h2 id="fiveday-forecast-title">
-                        5-Day Forecast
-                    </h2>
-
+                    <h2 id="fiveday-forecast-title">5-Day Forecast</h2>
                 </div>
-
+                <div class="fiveday-cards-container" id="fiveday-cards-container">
+                    <article class="forecast-item skeleton" style="min-height: 130px;"></article>
+                    <article class="forecast-item skeleton" style="min-height: 130px;"></article>
+                    <article class="forecast-item skeleton" style="min-height: 130px;"></article>
+                    <article class="forecast-item skeleton" style="min-height: 130px;"></article>
+                    <article class="forecast-item skeleton" style="min-height: 130px;"></article>
+                </div>
             </section>
 
 
