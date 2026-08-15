@@ -1894,7 +1894,7 @@ section {
 
 /* 3. Cloudy / Overcast Day (Dark slate sky) */
 #main.theme-clouds-day {
-  background: linear-gradient(135deg, #111827 0%, #243447 52%, #3f5870 100%);
+  background: linear-gradient(135deg, #111827 0%, #243447 52%, #3f5870 100%); 
 }
 
 /* 4. Cloudy Night */
