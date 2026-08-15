@@ -156,7 +156,7 @@ Add screenshots of the application here.
 
 ### Tablet
 
-<img width="915" height="948" alt="image" src=".assets/screenshots/tablet.png" />
+<img width="915" height="948" alt="image" src="./assets/screenshots/tablet.png" />
 
 ### Mobile
 
