@@ -152,7 +152,7 @@ Add screenshots of the application here.
 
 ### Desktop
 
-<img width="1917" height="973" alt="image" src="https://github.com/user-attachments/assets/screenshots/desktop.png" />
+<img width="1917" height="973" alt="image" src="./assets/screenshots/desktop.png" />
 
 ### Tablet
 
