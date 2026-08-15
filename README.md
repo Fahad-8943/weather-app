@@ -152,15 +152,15 @@ Add screenshots of the application here.
 
 ### Desktop
 
-<img width="1917" height="973" alt="image" src="https://github.com/user-attachments/assets/screenshots/desktop.png" />
+<img width="1917" height="973" alt="image" src="./assets/screenshots/desktop.png" />
 
 ### Tablet
 
-<img width="915" height="948" alt="image" src="https://github.com/user-attachments/assets/screenshots/tablet.png" />
+<img width="915" height="948" alt="image" src=".assets/screenshots/tablet.png" />
 
 ### Mobile
 
-<img width="612" height="971" alt="image" src="https://github.com/user-attachments/assets/02c66517-4e75-44ff-a39a-ece7c954865b" />
+<img width="612" height="971" alt="image" src="./assets/screenshots/mobile.png" />
 
 ---
 
