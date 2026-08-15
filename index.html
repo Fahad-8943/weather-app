@@ -130,7 +130,7 @@
             <!-- =========================
                  CURRENT WEATHER
             ========================== -->
-            <section id="current-weather" aria-labelledby="current-weather-title">
+            <section id="current-weather" class="is-loading" aria-labelledby="current-weather-title">
 
                 <div class="current-weather-header">
 
@@ -158,7 +158,7 @@
                     </div>
 
                     <div class="weather-icon">
-                        <img src="./assets/logo.png" alt="Current weather condition" width="150">
+                        <img src="./assets/icons/partly-cloudy-day.svg" alt="Current weather condition" width="150">
                     </div>
                 </div>
 
@@ -242,6 +242,26 @@
 
                 </div>
 
+                <div class="current-weather-skeleton" aria-busy="true" aria-label="Loading current weather">
+                    <div class="skeleton current-skeleton-header"></div>
+                    <div class="current-skeleton-hero">
+                        <div class="current-skeleton-copy">
+                            <div class="skeleton current-skeleton-temperature"></div>
+                            <div class="skeleton current-skeleton-condition"></div>
+                            <div class="skeleton current-skeleton-feels"></div>
+                        </div>
+                        <div class="skeleton current-skeleton-icon"></div>
+                    </div>
+                    <div class="current-skeleton-stats">
+                        <div class="skeleton"></div>
+                        <div class="skeleton"></div>
+                        <div class="skeleton"></div>
+                    </div>
+                    <div class="current-skeleton-high-low">
+                        <div class="skeleton"></div>
+                        <div class="skeleton"></div>
+                    </div>
+                </div>
             </section>
 
 

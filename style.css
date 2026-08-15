@@ -635,6 +635,77 @@ section {
   transition: background 0.8s ease-in-out;
 }
 
+#current-weather.is-loading > :not(.current-weather-skeleton) {
+  display: none;
+}
+
+.current-weather-skeleton {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.current-skeleton-header {
+  width: 9rem;
+  height: 1.1rem;
+}
+
+.current-skeleton-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.current-skeleton-copy {
+  flex: 1 1 auto;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.current-skeleton-temperature {
+  width: min(13rem, 60%);
+  height: clamp(4.25rem, 7vw, 6rem);
+}
+
+.current-skeleton-condition {
+  width: min(11rem, 75%);
+  height: 1.45rem;
+}
+
+.current-skeleton-feels {
+  width: min(8rem, 55%);
+  height: 1rem;
+}
+
+.current-skeleton-icon {
+  width: clamp(8.5rem, 16vw, 12.5rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.current-skeleton-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.current-skeleton-stats .skeleton {
+  height: 4.5rem;
+}
+
+.current-skeleton-high-low {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.current-skeleton-high-low .skeleton {
+  width: 6.5rem;
+  height: 3.25rem;
+}
+
 /* =========================================================
    CURRENT WEATHER HEADER
 ========================================================= */
@@ -1153,12 +1224,14 @@ section {
 }
 
 .fiveday-cards-container {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   min-height: 9.5rem;
 
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(6.5rem, 8.5rem));
   gap: 0.65rem;
+  justify-content: center;
+  align-items: center;
 
   scrollbar-width: thin;
   scrollbar-color: rgba(186, 230, 253, 0.65) transparent;
@@ -1175,6 +1248,7 @@ section {
 
 .fiveday-cards-container .forecast-item {
   min-width: 0;
+  min-height: 9.5rem;
 
   padding: 0.85rem 0.5rem;
 

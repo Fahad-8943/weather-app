@@ -84,6 +84,7 @@ const getWeatherIcon = (code, isDay = 1) => {
 const setWeatherTheme = (code, isDay = 1) => {
   const main = document.getElementById("main");
   if (!main) return;
+  const isDaytime = Number(isDay) === 1;
 
   // Preserve light-theme if active
   const isLight = main.classList.contains("light-theme");
@@ -98,11 +99,11 @@ const setWeatherTheme = (code, isDay = 1) => {
 
   // Clear Sky
   if (code === 0) {
-    themeClass = isDay ? "theme-clear-day" : "theme-clear-night";
+    themeClass = isDaytime ? "theme-clear-day" : "theme-clear-night";
   }
   // Mainly Clear / Partly Cloudy / Overcast
   else if (code >= 1 && code <= 3) {
-    themeClass = isDay ? "theme-clouds-day" : "theme-clouds-night";
+    themeClass = isDaytime ? "theme-clouds-day" : "theme-clouds-night";
   }
   // Fog
   else if (code === 45 || code === 48) {
@@ -200,6 +201,7 @@ const fetchWeatherData = async (latitude, longitude, cityName, adminRegion, coun
 
     // 4. Render Current Weather Card
     const currentWeatherEl = document.getElementById("current-weather");
+    currentWeatherEl.classList.remove("is-loading");
     currentWeatherEl.innerHTML = `
       <div class="current-weather-header">
         <p id="current-weather-title">NOW</p>
